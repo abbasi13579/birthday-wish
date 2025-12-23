@@ -1,0 +1,414 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Secret Birthday Surprise</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background: linear-gradient(135deg, #ffb3ec, #ffd6ff);
+      min-height: 100vh;
+      display: grid;
+      place-items: center;
+      padding: 20px;
+    }
+
+    .wrapper {
+      background: #fff;
+      width: 100%;
+      max-width: 380px;
+      padding: 25px 20px;
+      border-radius: 20px;
+      text-align: center;
+      box-shadow: 0 20px 40px rgba(0, 0, 0, .2);
+      animation: fade .5s ease;
+      margin: 10px auto;
+    }
+
+    @keyframes fade {
+      from {
+        opacity: 0;
+        transform: scale(.9);
+      }
+
+      to {
+        opacity: 1;
+        transform: scale(1);
+      }
+    }
+
+    .shape {
+      width: 110px;
+      height: 110px;
+      background: linear-gradient(135deg, #FFA3FE, #FFC6FF);
+      border-radius: 50%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin: 0 auto 15px;
+    }
+
+    .shape img {
+      width: 70%;
+      height: auto;
+      max-width: 70px;
+    }
+
+    .feedback {
+      font-size: 14px;
+      color: #ff4fd8;
+      font-weight: 600;
+      margin-bottom: 8px;
+      line-height: 1.4;
+      min-height: 20px;
+      word-wrap: break-word;
+    }
+
+    h2 {
+      font-size: 22px;
+      margin-bottom: 10px;
+      color: #444;
+      line-height: 1.3;
+    }
+
+    p {
+      font-size: 15px;
+      color: #666;
+      margin-bottom: 20px;
+      line-height: 1.5;
+    }
+
+    button {
+      width: 100%;
+      padding: 14px;
+      margin: 10px 0;
+      border: none;
+      border-radius: 30px;
+      font-size: 16px;
+      cursor: pointer;
+      font-weight: 600;
+      background: #fff;
+      color: #555;
+      border: 1px solid #FFA3FE;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 10px;
+      transition: .3s;
+      min-height: 50px;
+    }
+
+    button:hover {
+      background: #FFA3FE;
+      color: #000;
+      transform: scale(1.05);
+      box-shadow: 0 10px 25px rgba(255, 163, 254, .4);
+    }
+
+    .hidden {
+      display: none !important;
+    }
+
+    /* ALERT */
+    .alert-box {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, .6);
+      display: none;
+      justify-content: center;
+      align-items: center;
+      z-index: 999;
+      padding: 20px;
+    }
+
+    .alert-content {
+      background: #fff;
+      padding: 25px;
+      border-radius: 20px;
+      width: 100%;
+      max-width: 320px;
+      text-align: center;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+    }
+
+    .alert-content h3 {
+      margin-bottom: 10px;
+      color: #ff4fd8;
+    }
+
+    .alert-content p {
+      margin-bottom: 20px;
+    }
+
+    .alert-content button {
+      max-width: 200px;
+      margin: 0 auto;
+    }
+
+    /* FINAL POPUP */
+    .popup {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, .7);
+      display: none;
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
+      z-index: 1000;
+    }
+
+    .popup-content {
+      background: #fff;
+      width: 100%;
+      max-width: 420px;
+      border-radius: 20px;
+      padding: 25px;
+      text-align: center;
+      max-height: 90vh;
+      overflow-y: auto;
+      box-shadow: 0 15px 40px rgba(0, 0, 0, 0.3);
+    }
+
+    .popup-content img {
+      width: 100%;
+      max-width: 250px;
+      height: auto;
+      object-fit: cover;
+      border-radius: 15px;
+      margin: 0 auto 15px;
+      display: block;
+      border: 3px solid #ffc6ff;
+    }
+
+    .popup h2 {
+      color: #ff4fd8;
+      margin-bottom: 15px;
+    }
+
+    .popup p {
+      font-size: 14px;
+      margin-bottom: 20px;
+      text-align: center;
+    }
+
+    .popup button {
+      max-width: 200px;
+      margin: 10px auto;
+    }
+
+    /* Responsive adjustments */
+    @media (max-width: 480px) {
+      .wrapper {
+        padding: 20px 15px;
+        max-width: 95%;
+      }
+
+      h2 {
+        font-size: 20px;
+      }
+
+      p {
+        font-size: 14px;
+      }
+
+      button {
+        font-size: 15px;
+        padding: 12px;
+      }
+
+      .shape {
+        width: 100px;
+        height: 100px;
+      }
+
+      .popup-content {
+        padding: 20px 15px;
+      }
+
+      .popup-content img {
+        max-width: 200px;
+      }
+    }
+
+    @media (max-width: 350px) {
+      .wrapper {
+        padding: 15px 12px;
+      }
+
+      h2 {
+        font-size: 18px;
+      }
+
+      p {
+        font-size: 13px;
+      }
+
+      button {
+        font-size: 14px;
+        padding: 10px;
+      }
+
+      .shape {
+        width: 90px;
+        height: 90px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="wrapper">
+
+    <div class="shape">
+      <img src="https://cdn-icons-png.flaticon.com/512/3159/3159066.png" alt="Gift Icon">
+    </div>
+
+    <div id="feedback" class="feedback hidden"></div>
+
+    <h2 id="heading">ARE YOU HAPPY OR UNHAPPY?</h2>
+    <p id="description">
+      Kabhi kabhi ek chhota sa jawab
+      dil ka bohat bada raaz khol deta hai 💭
+      Bas jo feel ho wahi select karo 👇
+    </p>
+
+    <!-- STEP 1 -->
+    <button id="happyBtn"><i class="fa-solid fa-face-smile"></i> HAPPY</button>
+    <button id="unhappyBtn"><i class="fa-solid fa-face-frown"></i> UNHAPPY</button>
+
+    <!-- STEP 2 -->
+    <button id="step2a" class="hidden"><i class="fa-solid fa-dumbbell"></i> Apni strength 💪</button>
+    <button id="step2b" class="hidden"><i class="fa-solid fa-heart"></i> Kisi special insan par ❤️</button>
+
+    <!-- STEP 3 -->
+    <button id="step3a" class="hidden"><i class="fa-solid fa-dove"></i> Peace 🕊️</button>
+    <button id="step3b" class="hidden"><i class="fa-solid fa-user-heart"></i> Someone who never leaves 🤍</button>
+
+  </div>
+
+  <!-- UNHAPPY ALERT -->
+  <div class="alert-box" id="alertBox">
+    <div class="alert-content">
+      <h3>Heyyyy 🤍</h3>
+      <p>Aaj UnHappy hone ka time hi nahi 😌<br>End me Kuch special he wait kar raha hai 🎁 apka 💖</p>
+      <button onclick="closeAlert()">Okay 💖</button>
+    </div>
+  </div>
+
+  <!-- FINAL SURPRISE -->
+  <div class="popup" id="popup">
+    <div class="popup-content">
+      <!-- Note: Changed to a web image since local path won't work online -->
+      <img
+        src="https://images.unsplash.com/photo-1511988617509-a57c8a288659?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=500&q=80"
+        alt="Birthday Surprise">
+      <h2> SURPRISEEEE BESTIEEE 😘🎂</h2>
+      <p>Ab koi quiz nahi… aaj tumhara din hai 🥳<br><br></p>
+      <h2>🎂 HAPPY BIRTHDAY MY LOVE 🎉🎂</h2>
+      <p><b>Hey bestie! 🎉❤️ On your special day, I wanna tell you how lucky I am to have you in my life 💖.
+          You're more than just a friend - you're a partner in crime 😈, a confidant 🤫, and a constant source of
+          laughter 😂.
+          Here's to another year of making memories 📚, trying new things 🌟, and being there for each other through
+          thick and thin 💪.
+          May your birthday be as awesome as you are! 🎂❤️ Love you, bestie! 💕😘</b>
+      </p>
+      <button onclick="location.reload()">Restart</button>
+    </div>
+  </div>
+
+  <script>
+    const heading = document.getElementById("heading");
+    const description = document.getElementById("description");
+    const feedback = document.getElementById("feedback");
+
+    const happyBtn = document.getElementById("happyBtn");
+    const unhappyBtn = document.getElementById("unhappyBtn");
+
+    const step2a = document.getElementById("step2a");
+    const step2b = document.getElementById("step2b");
+
+    const step3a = document.getElementById("step3a");
+    const step3b = document.getElementById("step3b");
+
+    const alertBox = document.getElementById("alertBox");
+    const popup = document.getElementById("popup");
+
+    /* STEP 1 */
+    happyBtn.onclick = () => goStep2();
+    unhappyBtn.onclick = () => alertBox.style.display = "flex";
+
+    function closeAlert() {
+      alertBox.style.display = "none";
+      goStep2();
+    }
+
+    function goStep2() {
+      happyBtn.classList.add("hidden");
+      unhappyBtn.classList.add("hidden");
+      step2a.classList.remove("hidden");
+      step2b.classList.remove("hidden");
+
+      feedback.classList.add("hidden");
+      heading.innerText = "ONE MORE QUESTION…";
+      description.innerText = "Jab zindagi mushkil hoti hai, tum kis cheez par depend karti ho?";
+    }
+
+    /* STEP 2 */
+    step2a.onclick = () => {
+      feedback.innerText = "✨ Wow! Aap apni strength choose karti ho — strong soul 💪";
+      goStep3();
+    };
+
+    step2b.onclick = () => {
+      feedback.innerText = "❤️ Hamein bhi batao… kaun hai wo khush naseeb?";
+      goStep3();
+    };
+
+    function goStep3() {
+      feedback.classList.remove("hidden");
+      step2a.classList.add("hidden");
+      step2b.classList.add("hidden");
+      step3a.classList.remove("hidden");
+      step3b.classList.remove("hidden");
+
+      heading.innerText = "ONE LAST THING…";
+      description.innerText = "Agar ek hi cheez mile jo bina bole samajh le…?";
+    }
+
+    /* STEP 3 */
+    step3a.onclick = () => {
+      feedback.innerText = "🕊️ Peace choose karna sab se classy decision hota hai";
+      popup.style.display = "flex";
+    };
+
+    step3b.onclick = () => {
+      feedback.innerText = "🤍 Jo kabhi na chhode… aise log bohat rare hote hain";
+      popup.style.display = "flex";
+    };
+
+    // Close popup when clicking outside
+    window.onclick = function (event) {
+      if (event.target === popup) {
+        popup.style.display = "none";
+      }
+      if (event.target === alertBox) {
+        alertBox.style.display = "none";
+      }
+    };
+  </script>
+
+</body>
+
+</html>
